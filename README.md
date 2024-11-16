@@ -11,12 +11,10 @@ The backend is built using **Node.js, Express, and PostgreSQL**. Authentication 
 1. [Features](#features)
 2. [Technologies](#technologies)
 3. [Installation](#installation)
-4. [Environment Variables](#environment-variables)
-5. [Database Setup](#database-setup)
-6. [Running the Application](#running-the-application)
-7. [API Endpoints](#api-endpoints)
-8. [Testing](#testing)
-9. [License](#license)
+4. [Database Setup](#database-setup)
+5. [Running the Application](#running-the-application)
+6. [API Endpoints](#api-endpoints)
+7. [Testing](#testing)
 
 ---
 
