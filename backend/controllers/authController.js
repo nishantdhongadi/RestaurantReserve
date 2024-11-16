@@ -1,8 +1,9 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const pool = require('../models/db');
+const crypto = require('crypto');
 
-// Register a new user
+
 // Register a new user
 const register = async (req, res) => {
   const { username, email, phoneNumber, password } = req.body;
@@ -90,8 +91,60 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// In-memory store for reset tokens
+const resetTokens = {};
+
+// Request Password Reset
+const requestPasswordReset = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const userResult = await pool.query('SELECT * FROM Users WHERE email = $1', [email]);
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Generate a token
+    const token = crypto.randomBytes(32).toString('hex');
+    const expireDate = Date.now() + 3600000; // Token valid for 1 hour
+
+    // Store the token in memory
+    resetTokens[email] = { token, expireDate };
+
+    console.log(`Password reset token for ${email}: ${token}`);
+    res.status(200).json({ message: 'Password reset link sent' });
+  } catch (error) {
+    console.error('Error requesting password reset:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Reset Password
+const resetPassword = async (req, res) => {
+  const { email, token, newPassword } = req.body;
+  try {
+    // Check if the token is valid and not expired
+    const tokenData = resetTokens[email];
+    if (!tokenData || tokenData.token !== token || tokenData.expireDate < Date.now()) {
+      return res.status(400).json({ message: 'Invalid or expired token' });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await pool.query('UPDATE Users SET password = $1 WHERE email = $2', [hashedPassword, email]);
+
+    // Delete the token from memory after use
+    delete resetTokens[email];
+
+    res.status(200).json({ message: 'Password has been reset' });
+  } catch (error) {
+    console.error('Error resetting password:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   register,
   login,
-  deleteUser
+  deleteUser,
+  requestPasswordReset,
+  resetPassword
 };
