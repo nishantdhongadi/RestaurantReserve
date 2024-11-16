@@ -2,6 +2,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const pool = require('../models/db');
 const crypto = require('crypto');
+const sendEmail = require('../utils/emailService'); // Import email service
+
 
 
 // Register a new user
@@ -110,8 +112,14 @@ const requestPasswordReset = async (req, res) => {
     // Store the token in memory
     resetTokens[email] = { token, expireDate };
 
+    // Send the token to the user's email
+    const resetLink = `http://localhost:3000/auth/reset-password?token=${token}&email=${email}`;
+    const emailText = `You requested a password reset. Click the link to reset your password: ${resetLink}`;
+
+    await sendEmail(email, 'Password Reset Request', emailText);
+
     console.log(`Password reset token for ${email}: ${token}`);
-    res.status(200).json({ message: 'Password reset link sent' });
+    res.status(200).json({ message: 'Password reset link sent to your email' });
   } catch (error) {
     console.error('Error requesting password reset:', error);
     res.status(500).json({ message: 'Server error' });
