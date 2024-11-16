@@ -1,17 +1,27 @@
 const express = require('express');
 const app = express();
 const authRoutes = require('./routes/authRoutes');
+const reservationRoutes = require('./routes/reservationRoutes');
 
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Middleware to parse JSON request body
+app.use(express.json());  // <-- Add this line
 
-// Add some logging
-console.log('Available routes:', authRoutes.stack);
-
-// Use the router with a prefix
+// Routes
 app.use('/auth', authRoutes);
+app.use('/api/reservations', reservationRoutes);
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Something went wrong!' });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ message: 'Route not found' });
+});
+
+// Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
