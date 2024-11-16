@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { register, login } = require('../controllers/authController'); // Correctly import the functions
+const { register, login, deleteUser } = require('../controllers/authController');
+const auth = require('../middleware/auth');
 
-// Route for user registration
+// Register route
 router.post('/register', register);
 
-// Route for user login
+// Login route
 router.post('/login', login);
+
+// Delete user route (protected)
+router.delete('/delete', auth, deleteUser);
 
 module.exports = router;

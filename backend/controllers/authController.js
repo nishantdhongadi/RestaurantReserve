@@ -71,7 +71,27 @@ const login = async (req, res) => {
   }
 };
 
+// Delete a user account
+const deleteUser = async (req, res) => {
+  const userId = req.user.userId; // Get userId from the authenticated user
+
+  try {
+    const result = await pool.query('DELETE FROM Users WHERE userid = $1 RETURNING *', [userId]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    console.log(`User with ID ${userId} deleted`);
+    res.status(200).json({ message: 'User account deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({ error: 'Server error while deleting user' });
+  }
+};
+
 module.exports = {
   register,
-  login
+  login,
+  deleteUser
 };
