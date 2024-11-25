@@ -5,6 +5,9 @@ const reservationRoutes = require('./routes/reservationRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const restaurantRoutes = require('./routes/restaurantRoutes');
 const { restart } = require('nodemon');
+const cors = require('cors');
+
+app.use(cors()); // Enable CORS
 
 // Middleware to parse JSON request body
 app.use(express.json());  // <-- Add this line
