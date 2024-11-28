@@ -1,6 +1,8 @@
-// src/components/Login.js
 import React, { useState } from 'react';
+import { Form, Button, Alert, Container } from 'react-bootstrap';
 import api from '../utils/api';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Login.css';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -30,15 +32,35 @@ function Login() {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input name="email" type="email" placeholder="Email" onChange={handleChange} required />
-        <input name="password" type="password" placeholder="Password" onChange={handleChange} required />
-        <button type="submit">Login</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
+    <Container className="login-container">
+      <h2 className="text-center mt-4">Login</h2>
+      <Form className="mt-4" onSubmit={handleSubmit}>
+        <Form.Group className="mb-3">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit" className="w-100">
+          Login
+        </Button>
+      </Form>
+      {message && <Alert className="mt-4" variant={message.includes('successful') ? 'success' : 'danger'}>{message}</Alert>}
+    </Container>
   );
 }
 

@@ -1,0 +1,29 @@
+
+.delete-account-container {
+    max-width: 500px;
+    margin: 50px auto;
+    background-color: #fdfdfd;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    font-weight: bold;
+    color: #dc3545;
+  }
+  
+  p {
+    font-size: 1rem;
+    color: #6c757d;
+  }
+  
+  .delete-button {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+  }
+  
+  .alert {
+    text-align: center;
+  }
+  

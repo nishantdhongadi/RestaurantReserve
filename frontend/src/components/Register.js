@@ -1,6 +1,9 @@
-// src/components/Register.js
 import React, { useState } from 'react';
+import { Form, Button, Alert, Container } from 'react-bootstrap';
 import api from '../utils/api';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Register.css';
+
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -31,17 +34,55 @@ function Register() {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <input name="username" placeholder="Username" onChange={handleChange} required />
-        <input name="email" type="email" placeholder="Email" onChange={handleChange} required />
-        <input name="phoneNumber" placeholder="Phone Number" onChange={handleChange} required />
-        <input name="password" type="password" placeholder="Password" onChange={handleChange} required />
-        <button type="submit">Register</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
+    <Container className="register-container">
+      <h2 className="text-center mt-4">Register</h2>
+      <Form className="mt-4" onSubmit={handleSubmit}>
+        <Form.Group className="mb-3">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type="text"
+            name="username"
+            placeholder="Enter your username"
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Phone Number</Form.Label>
+          <Form.Control
+            type="text"
+            name="phoneNumber"
+            placeholder="Enter your phone number"
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit" className="w-100">
+          Register
+        </Button>
+      </Form>
+      {message && <Alert className="mt-4" variant={message.includes('failed') ? 'danger' : 'success'}>{message}</Alert>}
+    </Container>
   );
 }
 
