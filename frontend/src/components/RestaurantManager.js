@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Form, Modal, Alert } from 'react-bootstrap';
 import TimePicker from 'react-time-picker';
-import api from '../utils/api'; 
+import api from '../utils/api';
 
 const RestaurantManager = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -21,10 +21,12 @@ const RestaurantManager = () => {
   // Fetch all restaurants
   const fetchRestaurants = async () => {
     try {
+      console.log('Fetching restaurants...');
       const response = await api.get('/restaurants');
+      console.log('Fetched Restaurants:', response.data);
       setRestaurants(response.data);
     } catch (error) {
-      console.error('Error fetching restaurants:', error);
+      console.error('Error fetching restaurants:', error.response || error.message);
       setMessage('Error fetching restaurants');
     }
   };
@@ -47,20 +49,23 @@ const RestaurantManager = () => {
   // Handle adding or updating a restaurant
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Submitting Form Data:', formData);
     try {
       if (editingRestaurant) {
         // Update restaurant
-        await api.put(`/restaurants/${editingRestaurant._id}`, formData);
+        const response = await api.put(`/restaurants/${editingRestaurant._id}`, formData);
+        console.log('Update Response:', response.data);
         setMessage('Restaurant updated successfully');
       } else {
         // Add restaurant
-        await api.post('/restaurants', formData);
+        const response = await api.post('/restaurants', formData);
+        console.log('Add Response:', response.data);
         setMessage('Restaurant added successfully');
       }
       setShowModal(false);
-      fetchRestaurants();
+      fetchRestaurants(); // Refresh restaurant list after submission
     } catch (error) {
-      console.error('Error submitting restaurant:', error);
+      console.error('Error submitting restaurant:', error.response || error.message);
       setMessage('Error adding/updating restaurant');
     }
   };
@@ -68,17 +73,19 @@ const RestaurantManager = () => {
   // Handle deleting a restaurant
   const handleDelete = async (id) => {
     try {
+      console.log('Deleting restaurant with ID:', id);
       await api.delete(`/restaurants/${id}`);
       setMessage('Restaurant deleted successfully');
       fetchRestaurants();
     } catch (error) {
-      console.error('Error deleting restaurant:', error);
+      console.error('Error deleting restaurant:', error.response || error.message);
       setMessage('Error deleting restaurant');
     }
   };
 
   // Handle opening the modal for editing
   const handleEdit = (restaurant) => {
+    console.log('Editing restaurant:', restaurant);
     setEditingRestaurant(restaurant);
     setFormData(restaurant);
     setShowModal(true);
@@ -86,6 +93,7 @@ const RestaurantManager = () => {
 
   // Handle opening the modal for adding
   const handleAdd = () => {
+    console.log('Adding a new restaurant...');
     setEditingRestaurant(null);
     setFormData({
       name: '',
