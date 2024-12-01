@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert, Container } from 'react-bootstrap';
 import api from '../utils/api';
+import RestaurantManager from './RestaurantManager';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
 
@@ -10,6 +11,7 @@ function Login() {
     password: '',
   });
   const [message, setMessage] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
 
   // Handle input changes
   const handleChange = (e) => {
@@ -26,10 +28,16 @@ function Login() {
       const response = await api.post('/auth/login', formData);
       localStorage.setItem('token', response.data.token);
       setMessage('Login successful');
+      setIsLoggedIn(true); // Set login status to true
     } catch (error) {
       setMessage(error.response?.data?.message || 'Login failed');
     }
   };
+
+  if (isLoggedIn) {
+    // Render the RestaurantManager component if the user is logged in
+    return <RestaurantManager />;
+  }
 
   return (
     <Container className="login-container">
@@ -59,7 +67,14 @@ function Login() {
           Login
         </Button>
       </Form>
-      {message && <Alert className="mt-4" variant={message.includes('successful') ? 'success' : 'danger'}>{message}</Alert>}
+      {message && (
+        <Alert
+          className="mt-4"
+          variant={message.includes('successful') ? 'success' : 'danger'}
+        >
+          {message}
+        </Alert>
+      )}
     </Container>
   );
 }
