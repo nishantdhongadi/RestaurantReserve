@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Form, Modal, Alert } from 'react-bootstrap';
-import axios from 'axios';
+import TimePicker from 'react-time-picker';
+import api from '../utils/api'; 
 
 const RestaurantManager = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -13,17 +14,14 @@ const RestaurantManager = () => {
     email: '',
     cuisine: '',
     hours: '',
-    rating: '',
     tableNumber: '',
   });
   const [message, setMessage] = useState('');
 
-  const apiUrl = 'http://localhost:3001'; 
-
   // Fetch all restaurants
   const fetchRestaurants = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/restaurants`);
+      const response = await api.get('/restaurants');
       setRestaurants(response.data);
     } catch (error) {
       console.error('Error fetching restaurants:', error);
@@ -39,17 +37,24 @@ const RestaurantManager = () => {
     });
   };
 
+  const handleTimeChange = (value) => {
+    setFormData({
+      ...formData,
+      hours: value,
+    });
+  };
+
   // Handle adding or updating a restaurant
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (editingRestaurant) {
         // Update restaurant
-        await axios.put(`${apiUrl}/restaurants/${editingRestaurant._id}`, formData);
+        await api.put(`/restaurants/${editingRestaurant._id}`, formData);
         setMessage('Restaurant updated successfully');
       } else {
         // Add restaurant
-        await axios.post(`${apiUrl}/restaurants`, formData);
+        await api.post('/restaurants', formData);
         setMessage('Restaurant added successfully');
       }
       setShowModal(false);
@@ -63,7 +68,7 @@ const RestaurantManager = () => {
   // Handle deleting a restaurant
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${apiUrl}/restaurants/${id}`);
+      await api.delete(`/restaurants/${id}`);
       setMessage('Restaurant deleted successfully');
       fetchRestaurants();
     } catch (error) {
@@ -89,7 +94,6 @@ const RestaurantManager = () => {
       email: '',
       cuisine: '',
       hours: '',
-      rating: '',
       tableNumber: '',
     });
     setShowModal(true);
@@ -118,36 +122,42 @@ const RestaurantManager = () => {
             <th>Email</th>
             <th>Cuisine</th>
             <th>Hours</th>
-            <th>Rating</th>
             <th>Table Number</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {restaurants.map((restaurant) => (
-            <tr key={restaurant._id}>
-              <td>{restaurant.name}</td>
-              <td>{restaurant.address}</td>
-              <td>{restaurant.phone}</td>
-              <td>{restaurant.email}</td>
-              <td>{restaurant.cuisine}</td>
-              <td>{restaurant.hours}</td>
-              <td>{restaurant.rating}</td>
-              <td>{restaurant.tableNumber}</td>
-              <td>
-                <Button
-                  variant="warning"
-                  className="me-2"
-                  onClick={() => handleEdit(restaurant)}
-                >
-                  Edit
-                </Button>
-                <Button variant="danger" onClick={() => handleDelete(restaurant._id)}>
-                  Delete
-                </Button>
+          {restaurants.length > 0 ? (
+            restaurants.map((restaurant) => (
+              <tr key={restaurant._id}>
+                <td>{restaurant.name}</td>
+                <td>{restaurant.address}</td>
+                <td>{restaurant.phone}</td>
+                <td>{restaurant.email}</td>
+                <td>{restaurant.cuisine}</td>
+                <td>{restaurant.hours}</td>
+                <td>{restaurant.tableNumber}</td>
+                <td>
+                  <Button
+                    variant="warning"
+                    className="me-2"
+                    onClick={() => handleEdit(restaurant)}
+                  >
+                    Edit
+                  </Button>
+                  <Button variant="danger" onClick={() => handleDelete(restaurant._id)}>
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="8" className="text-center">
+                No restaurants available.
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </Table>
 
@@ -201,30 +211,27 @@ const RestaurantManager = () => {
             <Form.Group className="mb-3">
               <Form.Label>Cuisine</Form.Label>
               <Form.Control
-                type="text"
+                as="select"
                 name="cuisine"
                 value={formData.cuisine}
                 onChange={handleChange}
-              />
+                required
+              >
+                <option value="">Select Cuisine</option>
+                <option value="Italian">Italian</option>
+                <option value="Chinese">Chinese</option>
+                <option value="Mexican">Mexican</option>
+                <option value="Indian">Indian</option>
+                <option value="French">French</option>
+                <option value="Japanese">Japanese</option>
+              </Form.Control>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Hours</Form.Label>
-              <Form.Control
-                type="text"
+              <TimePicker
                 name="hours"
                 value={formData.hours}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Rating</Form.Label>
-              <Form.Control
-                type="number"
-                name="rating"
-                value={formData.rating}
-                onChange={handleChange}
-                min="1"
-                max="5"
+                onChange={handleTimeChange}
               />
             </Form.Group>
             <Form.Group className="mb-3">

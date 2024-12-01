@@ -2,10 +2,10 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000', // Update to your backend URL and port
+  baseURL: 'http://localhost:3000', 
 });
 
-// Include JWT token in headers if available
+
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token'); // Retrieve token from localStorage
