@@ -162,7 +162,7 @@ const RestaurantManager = () => {
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
-                name="Name"
+                name="name"
                 value={formData.name}
                 onChange={handleChange}
                 required
@@ -172,7 +172,7 @@ const RestaurantManager = () => {
               <Form.Label>Address</Form.Label>
               <Form.Control
                 type="text"
-                name="Address"
+                name="address"
                 value={formData.address}
                 onChange={handleChange}
                 required
@@ -182,7 +182,7 @@ const RestaurantManager = () => {
               <Form.Label>Phone</Form.Label>
               <Form.Control
                 type="text"
-                name="PhoneNumber"
+                name="phone"
                 value={formData.phone}
                 onChange={handleChange}
                 required
@@ -192,7 +192,7 @@ const RestaurantManager = () => {
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
-                name="Email"
+                name="email"
                 value={formData.email}
                 onChange={handleChange}
                 required
@@ -202,7 +202,7 @@ const RestaurantManager = () => {
               <Form.Label>Cuisine</Form.Label>
               <Form.Control
                 type="text"
-                name="Cuisine"
+                name="cuisine"
                 value={formData.cuisine}
                 onChange={handleChange}
                 required
@@ -212,7 +212,7 @@ const RestaurantManager = () => {
               <Form.Label>Operating Hours</Form.Label>
               <Form.Control
                 type="text"
-                name="OperatingHours"
+                name="hours"
                 value={formData.hours}
                 onChange={handleChange}
                 required
@@ -222,7 +222,7 @@ const RestaurantManager = () => {
               <Form.Label>Rating</Form.Label>
               <Form.Control
                 type="text"
-                name="Rating"
+                name="rating"
                 value={formData.rating}
                 onChange={handleChange}
                 required
@@ -232,7 +232,7 @@ const RestaurantManager = () => {
               <Form.Label>Table Number</Form.Label>
               <Form.Control
                 type="text"
-                name="TableNumber"
+                name="tableNumber"
                 value={formData.tableNumber}
                 onChange={handleChange}
               />
