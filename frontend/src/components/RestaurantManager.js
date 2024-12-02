@@ -13,6 +13,7 @@ const RestaurantManager = () => {
     Email: '',
     Cuisine: '',
     OperatingHours: '',
+    Rating: '',
     TableNumber: '',
   });
   const [message, setMessage] = useState('');
@@ -82,6 +83,7 @@ const RestaurantManager = () => {
       Email: restaurant.Email,
       Cuisine: restaurant.Cuisine,
       OperatingHours: restaurant.OperatingHours,
+      Rating: restaurant.Rating,
       TableNumber: restaurant.TableNumber,
     });
     setShowModal(true);
@@ -97,6 +99,7 @@ const RestaurantManager = () => {
       Email: '',
       Cuisine: '',
       OperatingHours: '',
+      Rating: '',
       TableNumber: '',
     });
     setShowModal(true);
@@ -116,6 +119,7 @@ const RestaurantManager = () => {
             <th>Email</th>
             <th>Cuisine</th>
             <th>Hours</th>
+            <th>Rating</th>
             <th>Table Number</th>
             <th>Actions</th>
           </tr>
@@ -130,6 +134,7 @@ const RestaurantManager = () => {
                 <td>{restaurant.Email}</td>
                 <td>{restaurant.Cuisine}</td>
                 <td>{restaurant.OperatingHours}</td>
+                <td>{restaurant.Rating}</td>
                 <td>{restaurant.TableNumber}</td>
                 <td>
                   <Button variant="warning" className="me-2" onClick={() => handleEdit(restaurant)}>Edit</Button>
@@ -208,6 +213,16 @@ const RestaurantManager = () => {
                 type="text"
                 name="OperatingHours"
                 value={formData.OperatingHours}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Rating</Form.Label>
+              <Form.Control
+                type="text"
+                name="Rating"
+                value={formData.Rating}
                 onChange={handleChange}
                 required
               />
