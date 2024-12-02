@@ -7,14 +7,14 @@ const RestaurantManager = () => {
   const [showModal, setShowModal] = useState(false);
   const [editingRestaurant, setEditingRestaurant] = useState(null);
   const [formData, setFormData] = useState({
-    Name: '',
-    Address: '',
-    PhoneNumber: '',
-    Email: '',
-    Cuisine: '',
-    OperatingHours: '',
-    Rating: '',
-    TableNumber: '',
+    name: '',
+    address: '',
+    phone: '',
+    email: '',
+    cuisine: '',
+    hours: '',
+    rating: '',
+    tableNumber: '',
   });
   const [message, setMessage] = useState('');
 
@@ -47,9 +47,10 @@ const RestaurantManager = () => {
     console.log('Submitting restaurant:', formData);
     try {
       if (editingRestaurant) {
-        await api.put(`api/restaurants/${editingRestaurant.RestaurantID}`, formData);
+        await api.put(`api/restaurants/${editingRestaurant.restaurantID}`, formData);
         setMessage('Restaurant updated successfully');
       } else {
+        console.log('Adding new restaurant with data:', formData);
         await api.post('api/restaurants/add', formData);
         setMessage('Restaurant added successfully');
       }
@@ -77,14 +78,14 @@ const RestaurantManager = () => {
     console.log('Editing restaurant:', restaurant);
     setEditingRestaurant(restaurant);
     setFormData({
-      Name: restaurant.Name,
-      Address: restaurant.Address,
-      PhoneNumber: restaurant.PhoneNumber,
-      Email: restaurant.Email,
-      Cuisine: restaurant.Cuisine,
-      OperatingHours: restaurant.OperatingHours,
-      Rating: restaurant.Rating,
-      TableNumber: restaurant.TableNumber,
+      name: restaurant.name,
+      address: restaurant.address,
+      phone: restaurant.phone,
+      email: restaurant.email,
+      cuisine: restaurant.cuisine,
+      hours: restaurant.hours,
+      rating: restaurant.rating,
+      tableNumber: restaurant.tableNumber,
     });
     setShowModal(true);
   };
@@ -93,14 +94,14 @@ const RestaurantManager = () => {
     console.log('Adding a new restaurant...');
     setEditingRestaurant(null);
     setFormData({
-      Name: '',
-      Address: '',
-      PhoneNumber: '',
-      Email: '',
-      Cuisine: '',
-      OperatingHours: '',
-      Rating: '',
-      TableNumber: '',
+      name: '',
+      address: '',
+      phone: '',
+      email: '',
+      cuisine: '',
+      hours: '',
+      rating: '',
+      tableNumber: '',
     });
     setShowModal(true);
   };
@@ -127,18 +128,18 @@ const RestaurantManager = () => {
         <tbody>
           {restaurants.length > 0 ? (
             restaurants.map((restaurant) => (
-              <tr key={restaurant.RestaurantID}>
-                <td>{restaurant.Name}</td>
-                <td>{restaurant.Address}</td>
-                <td>{restaurant.PhoneNumber}</td>
-                <td>{restaurant.Email}</td>
-                <td>{restaurant.Cuisine}</td>
-                <td>{restaurant.OperatingHours}</td>
-                <td>{restaurant.Rating}</td>
-                <td>{restaurant.TableNumber}</td>
+              <tr key={restaurant.restaurantID}>
+                <td>{restaurant.name}</td>
+                <td>{restaurant.address}</td>
+                <td>{restaurant.phone}</td>
+                <td>{restaurant.email}</td>
+                <td>{restaurant.cuisine}</td>
+                <td>{restaurant.hours}</td>
+                <td>{restaurant.rating}</td>
+                <td>{restaurant.tableNumber}</td>
                 <td>
                   <Button variant="warning" className="me-2" onClick={() => handleEdit(restaurant)}>Edit</Button>
-                  <Button variant="danger" onClick={() => handleDelete(restaurant.RestaurantID)}>Delete</Button>
+                  <Button variant="danger" onClick={() => handleDelete(restaurant.restaurantID)}>Delete</Button>
                 </td>
               </tr>
             ))
@@ -162,7 +163,7 @@ const RestaurantManager = () => {
               <Form.Control
                 type="text"
                 name="Name"
-                value={formData.Name}
+                value={formData.name}
                 onChange={handleChange}
                 required
               />
@@ -172,7 +173,7 @@ const RestaurantManager = () => {
               <Form.Control
                 type="text"
                 name="Address"
-                value={formData.Address}
+                value={formData.address}
                 onChange={handleChange}
                 required
               />
@@ -182,7 +183,7 @@ const RestaurantManager = () => {
               <Form.Control
                 type="text"
                 name="PhoneNumber"
-                value={formData.PhoneNumber}
+                value={formData.phone}
                 onChange={handleChange}
                 required
               />
@@ -192,7 +193,7 @@ const RestaurantManager = () => {
               <Form.Control
                 type="email"
                 name="Email"
-                value={formData.Email}
+                value={formData.email}
                 onChange={handleChange}
                 required
               />
@@ -202,7 +203,7 @@ const RestaurantManager = () => {
               <Form.Control
                 type="text"
                 name="Cuisine"
-                value={formData.Cuisine}
+                value={formData.cuisine}
                 onChange={handleChange}
                 required
               />
@@ -212,7 +213,7 @@ const RestaurantManager = () => {
               <Form.Control
                 type="text"
                 name="OperatingHours"
-                value={formData.OperatingHours}
+                value={formData.hours}
                 onChange={handleChange}
                 required
               />
@@ -222,7 +223,7 @@ const RestaurantManager = () => {
               <Form.Control
                 type="text"
                 name="Rating"
-                value={formData.Rating}
+                value={formData.rating}
                 onChange={handleChange}
                 required
               />
@@ -232,7 +233,7 @@ const RestaurantManager = () => {
               <Form.Control
                 type="text"
                 name="TableNumber"
-                value={formData.TableNumber}
+                value={formData.tableNumber}
                 onChange={handleChange}
               />
             </Form.Group>
