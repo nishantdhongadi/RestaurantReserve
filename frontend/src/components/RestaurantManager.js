@@ -80,11 +80,11 @@ const RestaurantManager = () => {
     setFormData({
       name: restaurant.name,
       address: restaurant.address,
-      phone: restaurant.phone,
+      phone: restaurant.phonenumber,
       email: restaurant.email,
       cuisine: restaurant.cuisine,
-      hours: restaurant.hours,
-      rating: restaurant.rating,
+      hours: restaurant.operatinghours,
+      rating: restaurant.averagerating,
       tableNumber: restaurant.tableNumber,
     });
     setShowModal(true);
@@ -131,11 +131,11 @@ const RestaurantManager = () => {
               <tr key={restaurant.restaurantID}>
                 <td>{restaurant.name}</td>
                 <td>{restaurant.address}</td>
-                <td>{restaurant.phone}</td>
+                <td>{restaurant.phonenumber}</td>
                 <td>{restaurant.email}</td>
                 <td>{restaurant.cuisine}</td>
-                <td>{restaurant.hours}</td>
-                <td>{restaurant.rating}</td>
+                <td>{restaurant.operatinghours}</td>
+                <td>{restaurant.averagerating}</td>
                 <td>{restaurant.tableNumber}</td>
                 <td>
                   <Button variant="warning" className="me-2" onClick={() => handleEdit(restaurant)}>Edit</Button>
