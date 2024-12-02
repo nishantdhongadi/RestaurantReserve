@@ -49,7 +49,7 @@ const RestaurantManager = () => {
         await api.put(`/restaurants/${editingRestaurant.RestaurantID}`, formData);
         setMessage('Restaurant updated successfully');
       } else {
-        await api.post('/restaurants', formData);
+        await api.post('/restaurants/add', formData);
         setMessage('Restaurant added successfully');
       }
       setShowModal(false);
