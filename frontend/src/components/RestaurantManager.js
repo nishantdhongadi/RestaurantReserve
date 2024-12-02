@@ -21,7 +21,7 @@ const RestaurantManager = () => {
   const fetchRestaurants = async () => {
     try {
       console.log('Fetching all restaurants...');
-      const response = await api.get('/restaurants');
+      const response = await api.get('api/restaurants/');
       console.log('Fetched Restaurants:', response.data);
       setRestaurants(response.data);
     } catch (error) {
@@ -46,10 +46,10 @@ const RestaurantManager = () => {
     console.log('Submitting restaurant:', formData);
     try {
       if (editingRestaurant) {
-        await api.put(`/restaurants/${editingRestaurant.RestaurantID}`, formData);
+        await api.put(`api/restaurants/${editingRestaurant.RestaurantID}`, formData);
         setMessage('Restaurant updated successfully');
       } else {
-        await api.post('/restaurants/add', formData);
+        await api.post('api/restaurants/add', formData);
         setMessage('Restaurant added successfully');
       }
       setShowModal(false);
@@ -63,7 +63,7 @@ const RestaurantManager = () => {
   const handleDelete = async (id) => {
     try {
       console.log('Deleting restaurant with ID:', id);
-      await api.delete(`/restaurants/${id}`);
+      await api.delete(`api/restaurants/${id}`);
       setMessage('Restaurant deleted successfully');
       fetchRestaurants();
     } catch (error) {
