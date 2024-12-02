@@ -85,7 +85,7 @@ const RestaurantManager = () => {
       cuisine: restaurant.cuisine,
       hours: restaurant.operatinghours,
       rating: restaurant.averagerating,
-      tableNumber: restaurant.tableNumber,
+      tableNumber: restaurant.tablenumber,
     });
     setShowModal(true);
   };
