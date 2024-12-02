@@ -136,7 +136,7 @@ const RestaurantManager = () => {
                 <td>{restaurant.cuisine}</td>
                 <td>{restaurant.operatinghours}</td>
                 <td>{restaurant.averagerating}</td>
-                <td>{restaurant.tableNumber}</td>
+                <td>{restaurant.tablenumber}</td>
                 <td>
                   <Button variant="warning" className="me-2" onClick={() => handleEdit(restaurant)}>Edit</Button>
                   <Button variant="danger" onClick={() => handleDelete(restaurant.restaurantID)}>Delete</Button>
