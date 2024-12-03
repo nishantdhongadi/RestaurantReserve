@@ -138,6 +138,12 @@ const RestaurantManager = () => {
                 <td>{restaurant.averagerating}</td>
                 <td>{restaurant.tablenumber}</td>
                 <td>
+                    <Button
+                    variant="info"
+                    className="me-2"
+                    onClick={() => navigate(`/reservations/${restaurant.restaurantID}`)}
+                    />
+                    Make a Reservation 
                   <Button variant="warning" className="me-2" onClick={() => handleEdit(restaurant)}>Edit</Button>
                   <Button variant="danger" onClick={() => handleDelete(restaurant.restaurantID)}>Delete</Button>
                 </td>

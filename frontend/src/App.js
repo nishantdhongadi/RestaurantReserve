@@ -6,6 +6,7 @@ import Login from './components/Login';
 import RequestReset from './components/RequestReset';
 import ResetPassword from './components/ResetPassword';
 import DeleteAccount from './components/DeleteAccount';
+import ReservationPage from './components/Reservation';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/request-reset" element={<RequestReset />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/delete-account" element={<DeleteAccount />} />
+        <Route path="/reservations/:restaurantId" element={<ReservationPage />} />
         <Route path="*" element={<h2>404: Page Not Found</h2>} />
       </Routes>
     </Router>
