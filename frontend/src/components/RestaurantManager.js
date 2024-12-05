@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Form, Modal, Alert } from 'react-bootstrap';
 import api from '../utils/api';
+import { useNavigate } from 'react-router-dom';
 
 const RestaurantManager = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -17,6 +18,7 @@ const RestaurantManager = () => {
     tableNumber: '',
   });
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   // Fetch all restaurants
   const fetchRestaurants = async () => {
