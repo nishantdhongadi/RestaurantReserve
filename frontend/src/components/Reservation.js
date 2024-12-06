@@ -5,6 +5,7 @@ import api from '../utils/api';
 
 const ReservationPage = () => {
   const { restaurantId } = useParams(); // Get restaurantId from the route
+  console.log('useParams:', { restaurantId });
   const navigate = useNavigate();
   const [reservations, setReservations] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -57,6 +58,13 @@ const ReservationPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!restaurantId || !formData.date || !formData.time || !formData.numberOfGuests) {
+        setMessage('All fields are required.');
+        return;
+      }
+
+    console.log('restaurant Id:' , restaurantId)  
   
     const reservationDateTime = new Date(`${formData.date}T${formData.time}`);
     if (reservationDateTime < new Date()) {

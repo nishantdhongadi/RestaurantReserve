@@ -4,6 +4,7 @@ import api from '../utils/api';
 import RestaurantManager from './RestaurantManager';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -11,7 +12,7 @@ function Login() {
     password: '',
   });
   const [message, setMessage] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
+  const navigate = useNavigate();
 
   // Handle input changes
   const handleChange = (e) => {
@@ -28,16 +29,11 @@ function Login() {
       const response = await api.post('/auth/login', formData);
       localStorage.setItem('token', response.data.token);
       setMessage('Login successful');
-      setIsLoggedIn(true); // Set login status to true
+      navigate('/restaurants');
     } catch (error) {
       setMessage(error.response?.data?.message || 'Login failed');
     }
   };
-
-  if (isLoggedIn) {
-    // Render the RestaurantManager component if the user is logged in
-    return <RestaurantManager />;
-  }
 
   return (
     <Container className="login-container">

@@ -49,7 +49,7 @@ const RestaurantManager = () => {
     console.log('Submitting restaurant:', formData);
     try {
       if (editingRestaurant) {
-        await api.put(`api/restaurants/${editingRestaurant.restaurantID}`, formData);
+        await api.put(`api/restaurants/${editingRestaurant.restaurantid}`, formData);
         setMessage('Restaurant updated successfully');
       } else {
         console.log('Adding new restaurant with data:', formData);
@@ -130,7 +130,7 @@ const RestaurantManager = () => {
         <tbody>
           {restaurants.length > 0 ? (
             restaurants.map((restaurant) => (
-              <tr key={restaurant.restaurantID}>
+              <tr key={restaurant.restaurantid}>
                 <td>{restaurant.name}</td>
                 <td>{restaurant.address}</td>
                 <td>{restaurant.phonenumber}</td>
@@ -143,11 +143,9 @@ const RestaurantManager = () => {
                     <Button
                     variant="info"
                     className="me-2"
-                    onClick={() => navigate(`/reservations/${restaurant.restaurantID}`)}
-                    />
-                    Make a Reservation 
+                    onClick={() => navigate(`/reservations/${restaurant.restaurantid}`)}>Make a Reservation</Button>
                   <Button variant="warning" className="me-2" onClick={() => handleEdit(restaurant)}>Edit</Button>
-                  <Button variant="danger" onClick={() => handleDelete(restaurant.restaurantID)}>Delete</Button>
+                  <Button variant="danger" onClick={() => handleDelete(restaurant.restaurantid)}>Delete</Button>
                 </td>
               </tr>
             ))
