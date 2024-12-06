@@ -16,7 +16,7 @@ app.use(express.json());  // <-- Add this line
 app.use('/auth', authRoutes);
 app.use('/api/reservations', reservationRoutes);
 app.use('/api/restaurants', restaurantRoutes);
-app.use('/api/reviews', reviewRoutes)
+app.use('/api/reviews', reviewRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

@@ -19,14 +19,29 @@ const ReservationPage = () => {
   // Fetch reservations for the restaurant
   const fetchReservations = async () => {
     try {
+        if (!restaurantId) {
+            setMessage('Restaurant ID is missing. Unable to create reservation.');
+            return;
+          }
       console.log('Fetching reservations for restaurant:', restaurantId);
       const response = await api.get(`api/reservations/restaurant/${restaurantId}`);
       console.log('Fetched Reservations:', response.data);
-      setReservations(response.data);
+      const normalizedReservations = Array.isArray(response.data)
+      ? response.data.map((res) => ({
+          reservationId: res.reservationid,
+          date: res.reservationdate,
+          time: res.reservationtime,
+          guests: res.numberofguests,
+          notes: res.notes,
+          status: res.status,
+        }))
+      : [];
+      setReservations(normalizedReservations);
     } catch (error) {
-      console.error('Error fetching reservations:', error.response || error.message);
-      setMessage('Error fetching reservations.');
-    }
+        const errorMessage = error.response?.data?.message || 'Error fetching reservations.';
+        console.error('Error fetching reservations:', error.response || error.message);
+        setMessage(errorMessage);
+      }
   };
 
   useEffect(() => {
@@ -42,19 +57,38 @@ const ReservationPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    const reservationDateTime = new Date(`${formData.date}T${formData.time}`);
+    if (reservationDateTime < new Date()) {
+      setMessage('Reservation date and time must be in the future.');
+      return;
+    }
+      // Validate number of guests
+    if (parseInt(formData.numberOfGuests, 10) <= 0) {
+        setMessage('Number of guests must be greater than zero.');
+        return;
+    }
+  
     console.log('Creating reservation with data:', formData);
     try {
       const response = await api.post(`api/reservations/`, {
         restaurantId: restaurantId,
         ...formData,
-        userId: 1, // Replace this with the logged-in user's ID from context or token
+        numberOfGuests: parseInt(formData.numberOfGuests, 10), // Ensure it's a number
       });
       setMessage('Reservation created successfully!');
       setShowModal(false);
+      setFormData({
+        date: '',
+        time: '',
+        numberOfGuests: '',
+        notes: '',
+      });
       fetchReservations();
     } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Error creating reservation.';
       console.error('Error creating reservation:', error.response || error.message);
-      setMessage('Error creating reservation.');
+      setMessage(errorMessage);
     }
   };
 
@@ -65,9 +99,10 @@ const ReservationPage = () => {
       setMessage('Reservation deleted successfully.');
       fetchReservations();
     } catch (error) {
-      console.error('Error deleting reservation:', error.response || error.message);
-      setMessage('Error deleting reservation.');
-    }
+        const errorMessage = error.response?.data?.message || 'Error deleting reservation.';
+        console.error('Error deleting reservation:', error.response || error.message);
+        setMessage(errorMessage);
+      }
   };
 
   return (
@@ -94,16 +129,16 @@ const ReservationPage = () => {
         <tbody>
           {reservations.length > 0 ? (
             reservations.map((reservation) => (
-              <tr key={reservation.reservationid}>
-                <td>{reservation.reservationdate}</td>
-                <td>{reservation.reservationtime}</td>
-                <td>{reservation.numberofguests}</td>
+                <tr key={reservation.reservationId}>
+                <td>{reservation.date}</td>
+                <td>{reservation.time}</td>
+                <td>{reservation.guests}</td>
                 <td>{reservation.notes}</td>
                 <td>{reservation.status}</td>
                 <td>
                   <Button
                     variant="danger"
-                    onClick={() => handleDelete(reservation.reservationid)}
+                    onClick={() => handleDelete(reservation.reservationId)}
                   >
                     Delete
                   </Button>
