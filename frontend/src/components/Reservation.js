@@ -44,7 +44,7 @@ const ReservationPage = () => {
     e.preventDefault();
     console.log('Creating reservation with data:', formData);
     try {
-      const response = await api.post(`api/reservations`, {
+      const response = await api.post(`api/reservations/`, {
         restaurantId: restaurantId,
         ...formData,
         userId: 1, // Replace this with the logged-in user's ID from context or token
