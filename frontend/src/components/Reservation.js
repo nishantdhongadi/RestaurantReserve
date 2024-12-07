@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 
 const ReservationPage = () => {
-  const { restaurantId } = useParams(); // Get restaurantId from the route
+  const { restaurantId } = useParams(); 
   console.log('useParams:', { restaurantId });
   const navigate = useNavigate();
   const [reservations, setReservations] = useState([]);
