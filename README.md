@@ -1,4 +1,4 @@
-# CSE 412 Group Project: Restaurant Reservation System
+# RestaurantReserve
 
 ## Project Description
 This project is a full-stack web application that allows users to register, log in, and manage restaurant reservations. Users can create, view, update, and delete reservations. Additionally, it supports password reset functionality. 
